@@ -1,6 +1,7 @@
-import { Product } from '../product';
+import { Product } from './../product';
 import * as fromRoot from '../../state/app.state';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { ProductActions, ProductActionTypes } from './product.action';
 
 export interface State extends fromRoot.State {
   products: ProductState;
@@ -34,17 +35,44 @@ export const getProducts = createSelector(
   state => state.products
 );
 
-export function reducer(state = initialState, action): ProductState {
+export function reducer(state = initialState, action: ProductActions): ProductState {
   switch (action.type) {
-
-    case 'TOGGLE_PRODUCT_CODE':
+    case ProductActionTypes.ToggleProductCode:
       return {
         ...state,
         showProductCode: action.payload
+      };
+
+    case ProductActionTypes.SetCurrentProduct:
+      return {
+        ...state,
+        // passing a reference to our currentProduct into the store
+        // means if we update a property of the object in component, 
+        // we mutate the product in the store as well
+        // to prevent this we make a copy of the object here { ...action.payload }
+        currentProduct: { ...action.payload}
+      };
+
+    case ProductActionTypes.ClearCurrentProduct:
+      return {
+        ...state,
+        currentProduct: null
+      };
+
+    case ProductActionTypes.InitializeCurrentProduct:
+      return {
+        ...state,
+        // when user select to add a new product
+        currentProduct: {
+          id: 0,
+          productName: '',
+          productCode: 'New',
+          description: '',
+          starRating: 0
+        }
       };
 
     default:
       return state;
   }
 }
-
