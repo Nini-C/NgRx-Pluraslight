@@ -1,7 +1,7 @@
 import { Product } from './../product';
 import * as fromRoot from '../../state/app.state';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ProductActions, ProductActionTypes } from './product.action';
+import { ProductActions, ProductActionTypes } from './product.actions';
 
 export interface State extends fromRoot.State {
   products: ProductState;
