@@ -1,7 +1,8 @@
 import { User } from '../user';
 
-// interface
+/* ngrx */
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { UserActions, UserActionTypes } from './user.actions';
 
 // strongly typing state: interface
 export interface UserState {
@@ -29,9 +30,9 @@ export const getCurrentUser = createSelector(
 );
 
 // initialize state
-export function reducer(state = initialState, action): UserState {
+export function reducer(state = initialState, action: UserActions): UserState {
   switch (action.type) {
-    case 'MASK_USER_NAME':
+    case UserActionTypes.MaskUserName:
       return {
         ...state,
         maskUserName: action.payload
