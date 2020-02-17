@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { Action, StoreModule } from '@ngrx/store';
 import { Product } from '../product';
 
 // define the action types as a set of named constants
@@ -58,3 +58,5 @@ export type ProductActions = ToggleProductCode
   | Load
   | LoadSuccess
   | LoadFail;
+
+

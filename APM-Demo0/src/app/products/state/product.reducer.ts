@@ -1,7 +1,7 @@
 import { Product } from './../product';
 import * as fromRoot from '../../state/app.state';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ProductActions, ProductActionTypes } from './product.actions';
+import { ProductActions, ProductActionTypes, LoadSuccess } from './product.actions';
 
 export interface State extends fromRoot.State {
   products: ProductState;
@@ -11,12 +11,14 @@ export interface ProductState {
   showProductCode: boolean;
   currentProduct: Product;
   products: Product[];
+  error: string;
 }
 
 const initialState: ProductState = {
   showProductCode: true,
   currentProduct: null,
-  products: []
+  products: [],
+  error: ''
 };
 
 const getProductFeatureState = createFeatureSelector<ProductState>('products');
@@ -34,6 +36,11 @@ export const getProducts = createSelector(
   getProductFeatureState,
   state => state.products
 );
+
+export const getError = createSelector(
+  getProductFeatureState,
+  state => state.error
+)
 
 export function reducer(state = initialState, action: ProductActions): ProductState {
   switch (action.type) {
@@ -71,6 +78,21 @@ export function reducer(state = initialState, action: ProductActions): ProductSt
           starRating: 0
         }
       };
+
+    // after define effect, configure reducer to listen to its dispatched LoadSuccess action
+    case ProductActionTypes.LoadSuccess:
+      return {
+        ...state,
+        products: action.payload,
+        error: ''
+      };
+
+    case ProductActionTypes.LoadFail:
+      return {
+        ...state,
+        products: [],
+        error: action.payload,
+      }
 
     default:
       return state;
