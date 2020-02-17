@@ -40,7 +40,7 @@ export const getProducts = createSelector(
 export const getError = createSelector(
   getProductFeatureState,
   state => state.error
-)
+);
 
 export function reducer(state = initialState, action: ProductActions): ProductState {
   switch (action.type) {
@@ -92,7 +92,7 @@ export function reducer(state = initialState, action: ProductActions): ProductSt
         ...state,
         products: [],
         error: action.payload,
-      }
+      };
 
     default:
       return state;

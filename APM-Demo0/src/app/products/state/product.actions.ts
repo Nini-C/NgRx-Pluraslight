@@ -1,4 +1,4 @@
-import { Action, StoreModule } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { Product } from '../product';
 
 // define the action types as a set of named constants
